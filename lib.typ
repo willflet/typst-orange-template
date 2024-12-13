@@ -97,6 +97,13 @@
   ]
 }
 
+#let foreword(title, image:none) = { 
+  heading-image.update(x =>
+    image
+  )
+  heading(level: 1, numbering: none, title)
+}
+
 #let update-heading-image(image:none) = {
   heading-image.update(x =>
     image
@@ -517,10 +524,9 @@
 
   my-outline(appendix-state, appendix-state-hide-parent, part-state, part-location,part-change,part-counter, main-color, textSize1: outline-part, textSize2: outline-heading1, textSize3: outline-heading2, textSize4: outline-heading3)
 
-  my-outline-sec(list-of-figure-title, figure.where(kind: image), outline-heading3)
+  // my-outline-sec(list-of-figure-title, figure.where(kind: image), outline-heading3)
 
-  my-outline-sec(list-of-table-title, figure.where(kind: table), outline-heading3)
-
+  // my-outline-sec(list-of-table-title, figure.where(kind: table), outline-heading3)
 
   // Main body.
   set par(
@@ -534,4 +540,3 @@
   body
 
 }
-
