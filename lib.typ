@@ -86,22 +86,24 @@
   ]
 }
 
-#let chapter(title, image:none, l: none) = {
+#let chapter(title, numbered: true, image: none, l: none) = {
   heading-image.update(x =>
     image
   )
-  if l != none [
-    #heading(level: 1, title) #label(l)
-  ] else [
-    #heading(level: 1, title) 
-  ]
-}
 
-#let foreword(title, image:none) = { 
-  heading-image.update(x =>
-    image
-  )
-  heading(level: 1, numbering: none, title)
+  if l != none {
+    if numbered [
+      #heading(level: 1, title) #label(l)
+    ] else [
+      #heading(level: 1, numbering: none, title) #label(l)
+    ]
+  } else {
+    if numbered [
+      #heading(level: 1, title)
+    ] else [
+      #heading(level: 1, numbering: none, title)
+    ]
+  }
 }
 
 #let update-heading-image(image:none) = {
