@@ -378,14 +378,19 @@
    context {
     let main-color = z-main-color.at(here())
     set par(first-line-indent: 0em)
-    grid(columns: (1.2cm, 1fr), align: (center, left), rows: (auto))[
-      #circle(radius: 0.3cm, fill: main-color.lighten(70%), stroke: main-color.lighten(30%))[
-        #set align(center + horizon)
-        #set text(fill: main-color, weight: "bold")
-        [R]
-      ],
-      #body
-    ]
+    grid(
+      columns: (1.2cm, 1fr),
+      align: (center, left),
+      rows: (auto),
+      ..(
+        circle(radius: 0.3cm, fill: main-color.lighten(70%), stroke: main-color.lighten(30%))[
+          #set align(center + horizon)
+          #set text(fill: main-color, weight: "bold")
+          R
+        ],
+        body
+      )
+    )
   }
 }
 
@@ -649,10 +654,10 @@
 
   if (copyright!=none){
     set text(size: 10pt)
-    show link: it => [
-      #set text(fill: main-color)
-      #it
-    ]
+    show link: it => {
+      set text(fill: main-color)
+      it
+    }
     set par(spacing: 2em)
     align(bottom)[
       #copyright
