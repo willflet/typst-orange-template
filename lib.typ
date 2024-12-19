@@ -42,7 +42,7 @@
 #let z-appendix = state("appendix", none)
 #let z-appendix-hide-parent = state("appendix-hide-parent", none)
 #let z-heading-image = state("heading-image", none)
-#let z-supplement-part = state("supplement-part", none)
+#let z-part-prefix = state("part-prefix", none)
 #let z-part-style = state("part-style", 0)
 #let z-part = state("part", none)
 #let z-part-location = state("part-location", none)
@@ -63,7 +63,7 @@
   context {
     let main-color = z-main-color.at(here())
     let part-style = z-part-style.at(here())
-    let supplement-part = z-supplement-part.at(here())
+    let part-prefix = z-part-prefix.at(here())
     if part-style == 0 [
       #set par(justify: false)
       #place()[
@@ -89,7 +89,7 @@
       #place(top+left)[
         #block()[
           #text(fill: black, size: 2.5em, weight: "bold")[
-            #(supplement-part + " " + z-part-counter.display("I"))
+            #(part-prefix + " " + z-part-counter.display("I"))
           ]
         ]
         #v(1cm, weak: true)
@@ -507,8 +507,8 @@
     paper-size: "a4",
     main-color: blue,
     lang: "en",
-    supplement-chapter: "Chapter",
-    supplement-part: "Part",
+    chapter-prefix: "Chapter",
+    part-prefix: "Part",
     font-size: 10pt,
     part-style: 0,
     lowercase-references: false) = {
@@ -521,7 +521,6 @@
   if lowercase-references {
     set ref(supplement: it => {lower(it.supplement)})
   }
-
 
   set math.equation(
     numbering: num => numbering("(1.1)", counter(heading).get().first(), num)
@@ -615,7 +614,7 @@
     }
   )
 
-  show heading.where(level: 1): set heading(supplement: supplement-chapter)
+  show heading.where(level: 1): set heading(supplement: chapter-prefix)
 
   show heading: it => {
     set text(size: font-size)
@@ -718,7 +717,7 @@
   z-language.update(x => lang)
   z-main-color.update(x => main-color)
   z-part-style.update(x => part-style)
-  z-supplement-part.update(x => supplement-part)
+  z-part-prefix.update(x => part-prefix)
   //place(top, image("images/background2.jpg", width: 100%, height: 50%))
 
   body
