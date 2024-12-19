@@ -394,22 +394,119 @@
   }
 }
 
-#let book(
-    title: "",
-    subtitle: "",
-    author: (),
-    paper-size: "a4",
-    logo: none,
-    cover: none,
+#let cover-page(title: [], subtitle: [], author: [], cover: none, logo: none) = {
+  context {
+    let main-color = z-main-color.at(here())
+    page(margin: 0cm, header: none)[
+      #set text(fill: black)
+      #if cover != none {
+        set image(width: 100%, height: 100%)
+        place(bottom)[#cover]
+      }
+      #if logo != none {
+        set image(width: 3cm)
+        place(top + center)[
+          #pad(top:1cm)[#logo]
+        ]
+      }
+      #align(center + horizon)[
+        #block(width: 100%, fill: main-color.lighten(70%), height: 7.5cm)[
+          #pad(x:2cm, y:1cm)[
+            #par(leading: 0.4em)[
+              #text(size: title-main-1, weight: "black")[#title]
+            ]
+            #v(1cm, weak: true)
+            #text(size: title-main-2)[#subtitle]
+            #v(1cm, weak: true)
+            #text(font: "Lato", style: "normal", size: title-main-3, weight: "bold")[#author]
+          ]
+        ]
+      ]
+    ]
+  }
+}
+
+
+#let copyright-page(body) = {
+  set text(size: 10pt)
+  context {
+    let main-color = z-main-color.at(here())
+    show link: it => {
+      set text(fill: main-color)
+      it
+    }
+    set par(spacing: 2em)
+    align(bottom)[
+      #body
+    ]
+  }
+}
+
+#let index-pages(
     index-image: none,
-    body,
-    main-color: blue,
-    copyright: [],
-    lang: "en",
     figure-index: true,
     table-index: true,
-    figure-index-title: none,
-    table-index-title: none,
+    figure-index-title: "List of Figures",
+    table-index-title: "List of Tables") = {
+  
+  update-heading-image(index-image)
+
+  context {
+    let main-color = z-main-color.at(here())
+    my-outline(
+      z-appendix,
+      z-appendix-hide-parent,
+      z-part,
+      z-part-location,
+      z-part-change,
+      z-part-counter,
+      main-color,
+      text-size-1: outline-part,
+      text-size-2: outline-heading1,
+      text-size-3: outline-heading2,
+      text-size-4: outline-heading3
+    )
+  }
+
+  if figure-index {
+    my-outline-sec(
+      figure-index-title,
+      figure.where(kind: image),
+      text-size: outline-heading3
+    )
+  }
+
+  if table-index {
+    my-outline-sec(
+      table-index-title,
+      figure.where(kind: table),
+      text-size: outline-heading3
+    )
+  }
+}
+
+#let main-pages(body) = {
+  context {
+    let main-color = z-main-color.at(here())
+    set par(
+      first-line-indent: 1em,
+      justify: true,
+      spacing: 0.5em
+    )
+    set block(spacing: 1.2em)
+    show link: set text(fill: main-color)
+
+    body
+  }
+}
+
+#let book(
+    body,
+    title: "",
+    author: "",
+    paper-size: "a4",
+    main-color: blue,
+    lang: "en",
     supplement-chapter: "Chapter",
     supplement-part: "Part",
     font-size: 10pt,
@@ -618,92 +715,11 @@
 
   set underline(offset: 3pt)
 
-  // Title page.
-  page(margin: 0cm, header: none)[
-    #set text(fill: black)
-    #z-language.update(x => lang)
-    #z-main-color.update(x => main-color)
-    #z-part-style.update(x => part-style)
-    #z-supplement-part.update(x => supplement-part)
-    //#place(top, image("images/background2.jpg", width: 100%, height: 50%))
-
-    #if cover != none {
-      set image(width: 100%, height: 100%)
-      place(bottom)[#cover]
-    }
-    #if logo != none {
-      set image(width: 3cm)
-      place(top + center)[
-        #pad(top:1cm)[#logo]
-      ]
-    }
-    #align(center + horizon)[
-      #block(width: 100%, fill: main-color.lighten(70%), height: 7.5cm)[
-        #pad(x:2cm, y:1cm)[
-          #par(leading: 0.4em)[
-            #text(size: title-main-1, weight: "black")[#title]
-          ]
-          #v(1cm, weak: true)
-          #text(size: title-main-2)[#subtitle]
-          #v(1cm, weak: true)
-          #text(size: title-main-3, weight: "bold")[#author]
-        ]
-      ]
-    ]
-  ]
-
-  if (copyright!=none){
-    set text(size: 10pt)
-    show link: it => {
-      set text(fill: main-color)
-      it
-    }
-    set par(spacing: 2em)
-    align(bottom)[
-      #copyright
-    ]
-  }
-  
-  update-heading-image(index-image)
-
-  my-outline(
-    z-appendix,
-    z-appendix-hide-parent,
-    z-part,
-    z-part-location,
-    z-part-change,
-    z-part-counter,
-    main-color,
-    text-size-1: outline-part,
-    text-size-2: outline-heading1,
-    text-size-3: outline-heading2,
-    text-size-4: outline-heading3
-  )
-
-  if figure-index {
-    my-outline-sec(
-      figure-index-title,
-      figure.where(kind: image),
-      text-size: outline-heading3
-    )
-  }
-
-  if table-index {
-    my-outline-sec(
-      table-index-title,
-      figure.where(kind: table),
-      text-size: outline-heading3
-    )
-  }
-
-  // Main body.
-  set par(
-    first-line-indent: 1em,
-    justify: true,
-    spacing: 0.5em
-  )
-  set block(spacing: 1.2em)
-  show link: set text(fill: main-color)
+  z-language.update(x => lang)
+  z-main-color.update(x => main-color)
+  z-part-style.update(x => part-style)
+  z-supplement-part.update(x => supplement-part)
+  //place(top, image("images/background2.jpg", width: 100%, height: 50%))
 
   body
 
