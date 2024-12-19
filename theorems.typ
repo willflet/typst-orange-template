@@ -8,7 +8,6 @@
   ),
 )
 
-
 #let thmenv(identifier, base, base_level, fmt) = {
 
   let global_numbering = numbering
@@ -75,7 +74,6 @@
   }
 }
 
-
 #let thmref(
   label,
   fmt: auto,
@@ -112,10 +110,9 @@
   }
 }
 
-
 #let thmbox(
-  identifier,
-  head,
+  identifier: [],
+  head: [],
   fill: none,
   stroke: none,
   inset: 1.2em,
@@ -131,7 +128,7 @@
 ) = {
   let boxfmt(name, number, body) = {
     if not name == none {
-      name = [ #namefmt(name)]
+      name = [#namefmt(name)]
     } else {
       name = []
     }
@@ -149,12 +146,12 @@
       width: 100%,
       radius: radius,
       breakable: breakable,
-      [#title#name#separator#body],
-    )
+    )[
+      #title#name#separator#body
+    ]
   }
   return thmenv(identifier, base, base_level, boxfmt)
 }
-
 
 #let thmplain = thmbox.with(
   padding: (top: 0em, bottom: 0em),
