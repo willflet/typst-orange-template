@@ -418,7 +418,7 @@
             #v(1cm, weak: true)
             #text(size: title-main-2)[#subtitle]
             #v(1cm, weak: true)
-            #text(font: "Lato", style: "normal", size: title-main-3, weight: "bold")[#author]
+            #text(size: title-main-3, weight: "bold")[#author]
           ]
         ]
       ]
