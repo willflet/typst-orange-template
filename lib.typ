@@ -55,71 +55,69 @@
   z-part.update(x => title)
   z-part-counter.step()
 
-  [
-    #context {
-      let loc = here()
-      z-part-location.update(x => loc)
-    }
+  context {
+    let loc = here()
+    z-part-location.update(x => loc)
+  }
 
-    #context {
-      let main-color = z-main-color.at(here())
-      let part-style = z-part-style.at(here())
-      let supplement-part = z-supplement-part.at(here())
-      if part-style == 0 [
-        #set par(justify: false)
-        #place()[
-          #block(width:100%, height:100%, outset: (x: 3cm, bottom: 2.5cm, top: 3cm), fill: main-color.lighten(70%))
+  context {
+    let main-color = z-main-color.at(here())
+    let part-style = z-part-style.at(here())
+    let supplement-part = z-supplement-part.at(here())
+    if part-style == 0 [
+      #set par(justify: false)
+      #place()[
+        #block(width:100%, height:100%, outset: (x: 3cm, bottom: 2.5cm, top: 3cm), fill: main-color.lighten(70%))
+      ]
+      #place(top+right)[
+        #text(fill: black, size: large-text, weight: "bold")[
+          #box(width: 60%)[
+            #z-part.get()
+          ]
         ]
-        #place(top+right)[
-          #text(fill: black, size: large-text, weight: "bold")[
-            #box(width: 60%)[
+      ]
+      #place(top+left)[
+        #text(fill: main-color, size: huge-text, weight: "bold")[
+          #z-part-counter.display("I")
+        ]
+      ]
+    ] else if part-style == 1 [
+      #set par(justify: false)
+      #place()[
+        #block(width:100%, height:100%, outset: (x: 3cm, bottom: 2.5cm, top: 3cm), fill: main-color.lighten(70%))
+      ]
+      #place(top+left)[
+        #block()[
+          #text(fill: black, size: 2.5em, weight: "bold")[
+            #(supplement-part + " " + z-part-counter.display("I"))
+          ]
+        ]
+        #v(1cm, weak: true)
+        #move(dx: -4pt)[
+          #block()[
+            #text(fill: main-color, size: 6em, weight: "bold")[
               #z-part.get()
             ]
           ]
         ]
-        #place(top+left)[
-          #text(fill: main-color, size: huge-text, weight: "bold")[
-            #z-part-counter.display("I")
-          ]
-        ]
-      ] else if part-style == 1 [
-        #set par(justify: false)
-        #place()[
-          #block(width:100%, height:100%, outset: (x: 3cm, bottom: 2.5cm, top: 3cm), fill: main-color.lighten(70%))
-        ]
-        #place(top+left)[
-          #block()[
-            #text(fill: black, size: 2.5em, weight: "bold")[
-              #(supplement-part + " " + z-part-counter.display("I"))
-            ]
-          ]
-          #v(1cm, weak: true)
-          #move(dx: -4pt)[
-            #block()[
-              #text(fill: main-color, size: 6em, weight: "bold")[
-                #z-part.get()
-              ]
-            ]
-          ]
-        ]
       ]
-      align(bottom+right)[
-        #my-outline-small(
-          title,
-          z-appendix,
-          z-part,
-          z-part-location,
-          z-part-change,
-          z-part-counter,
-          main-color,
-          text-size-1: outline-part,
-          text-size-2: outline-heading1,
-          text-size-3: outline-heading2,
-          text-size-4: outline-heading3
-        )
-      ]
-    }
-  ]
+    ]
+    align(bottom+right)[
+      #my-outline-small(
+        title,
+        z-appendix,
+        z-part,
+        z-part-location,
+        z-part-change,
+        z-part-counter,
+        main-color,
+        text-size-1: outline-part,
+        text-size-2: outline-heading1,
+        text-size-3: outline-heading2,
+        text-size-4: outline-heading3
+      )
+    ]
+  }
 }
 
 #let update-heading-image(image) = {
@@ -481,16 +479,16 @@
         }
       } else {
         let before = query(selector(heading.where(level: 1)).before(here()))
-        let counterInt = counter(heading).at(here()).first()
-        if before != () and counterInt > 0 {
+        let counter-int = counter(heading).at(here()).first()
+        if before != () and counter-int > 0 {
           box(width: 100%, inset: (bottom: 5pt), stroke: (bottom: 0.5pt))[
             #page_number
             #h(1fr)
             #text(weight: "bold")[
               #if appendix != none {
-                numbering("A.1", counterInt) + ". " + before.last().body
+                numbering("A.1", counter-int) + ". " + before.last().body
               } else {
-                before.last().supplement + " " + str(counterInt) + ". " + before.last().body
+                before.last().supplement + " " + str(counter-int) + ". " + before.last().body
               }
             ]
           ]
