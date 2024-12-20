@@ -63,18 +63,25 @@
   }
 }
 
-#let index-pages(
-    index-image: none,
-    figure-index: true,
-    table-index: true,
-    figure-index-title: "List of Figures",
-    table-index-title: "List of Tables") = {
+#let toc-pages(
+    toc-image: none,
+    figure-toc: true,
+    table-toc: true,
+    figure-toc-title: "List of Figures",
+    table-toc-title: "List of Tables") = {
   
-  states.heading-image.update(index-image)
+  states.heading-image.update(toc-image)
 
   context {
     let main-color = states.main-color.at(here())
     my-outline(
+      states.main-color,
+      states.appendix,
+      states.appendix-hide-parent,
+      states.part,
+      states.part-location,
+      states.part-change,
+      states.part-counter,
       text-size-1: outline-part,
       text-size-2: outline-heading1,
       text-size-3: outline-heading2,
@@ -82,17 +89,17 @@
     )
   }
 
-  if figure-index {
+  if figure-toc {
     my-outline-sec(
-      figure-index-title,
+      figure-toc-title,
       figure.where(kind: image),
       text-size: outline-heading3
     )
   }
 
-  if table-index {
+  if table-toc {
     my-outline-sec(
-      table-index-title,
+      table-toc-title,
       figure.where(kind: table),
       text-size: outline-heading3
     )
@@ -170,6 +177,9 @@
     align(bottom+right)[
       #my-outline-small(
         title,
+        states.main-color,
+        states.appendix,
+        states.part,
         text-size-1: outline-part,
         text-size-2: outline-heading1,
         text-size-3: outline-heading2,

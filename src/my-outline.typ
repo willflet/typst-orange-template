@@ -1,4 +1,4 @@
-#import("_states.typ") as states
+#import("_states.typ") as states: *
 
 #let my-outline-row(
     text-size: none,
@@ -27,6 +27,13 @@
 }
 
 #let my-outline(
+    z-main-color,
+    z-appendix,
+    z-appendix-hide-parent,
+    z-part,
+    z-part-location,
+    z-part-change,
+    z-part-counter,
     text-size-1: none,
     text-size-2: none,
     text-size-3: none,
@@ -34,9 +41,9 @@
 
   show outline.entry: it => {
     context {
-      let main-color = states.main-color.at(here())
-      let appendix-state = states.appendix.at(it.element.location())
-      let appendix-state-hide-parent = states.appendix-hide-parent.at(it.element.location())
+      let main-color = z-main-color.at(here())
+      let appendix-state = z-appendix.at(it.element.location())
+      let appendix-state-hide-parent = z-appendix-hide-parent.at(it.element.location())
       let numbering-format = if appendix-state != none {"A.1"} else {"1.1"}
       let counter-int = counter(heading).at(it.element.location())
       let number = none
@@ -47,10 +54,10 @@
       let heading-page = it.page
 
       if it.level == 1 {
-        let part-state = states.part.at(it.element.location())
-        let part-location = states.part-location.at(it.element.location())
-        let part-change = states.part-change.at(it.element.location())
-        let part-counter = states.part-counter.at(it.element.location())
+        let part-state = z-part.at(it.element.location())
+        let part-location = z-part-location.at(it.element.location())
+        let part-change = z-part-change.at(it.element.location())
+        let part-counter = z-part-counter.at(it.element.location())
         if (part-change){
           v(0.7cm, weak: true)
           box(width: 1.4cm, fill: main-color.lighten(80%), inset: 5pt)[
@@ -120,12 +127,15 @@
         )
       }
     }
-    outline(depth: 3, indent: false)
   }
+  outline(depth: 3, indent: false)
 }
 
 #let my-outline-small(
     part-title,
+    z-main-color,
+    z-appendix,
+    z-part,
     text-size-1: none,
     text-size-2: none,
     text-size-3: none,
@@ -133,8 +143,8 @@
   
   show outline.entry: it => {
     context {
-      let main-color = states.main-color.at(here())
-      let appendix-state = states.appendix.at(it.element.location())
+      let main-color = z-main-color.at(here())
+      let appendix-state = z-appendix.at(it.element.location())
       let numbering-format = if appendix-state != none {"A.1"} else {"1.1"}
       let counter-int = counter(heading).at(it.element.location())
       let number = none
@@ -143,7 +153,7 @@
       }
       let title = it.element.body
       let heading-page = it.page
-      let part-state = states.part.at(it.element.location())
+      let part-state = z-part.at(it.element.location())
       if (part-state == part-title and counter-int.first() > 0 and appendix-state == none){
         if it.level == 1 {
           v(0.5cm, weak: true)
@@ -174,10 +184,10 @@
         v(-0.65em, weak: true)
       }
     }
-    box(width: 9.5cm)[
-      #outline(depth: 2, indent: false, title: none)
-    ]
   }
+  box(width: 9.5cm)[
+    #outline(depth: 2, indent: false, title: none)
+  ]
 }
 
 #let my-outline-sec(title, target, text-size: 1em) = {

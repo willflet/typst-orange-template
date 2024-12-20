@@ -1,4 +1,4 @@
-#import("_states.typ") as states
+#import("_states.typ") as states: *
 
 
 #let classes = (main: "Main")
