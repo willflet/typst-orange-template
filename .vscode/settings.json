@@ -22,5 +22,6 @@
         "vals",
         "Verl"
     ],
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+    "tinymist.exportPdf": "never"
 }
