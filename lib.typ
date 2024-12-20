@@ -394,14 +394,14 @@
   }
 }
 
-#let cover-page(title: [], subtitle: [], author: [], cover: none, logo: none) = {
+#let cover(title: [], subtitle: [], author: [], cover-image: none, logo: none) = {
   context {
     let main-color = z-main-color.at(here())
     page(margin: 0cm, header: none)[
       #set text(fill: black)
-      #if cover != none {
+      #if cover-image != none {
         set image(width: 100%, height: 100%)
-        place(bottom)[#cover]
+        place(bottom)[#cover-image]
       }
       #if logo != none {
         set image(width: 3cm)

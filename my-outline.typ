@@ -4,15 +4,16 @@
     inset-size: 0pt,
     text-color: blue,
     number: "0",
+    number-offset: 0cm,
     title: none,
     heading-page: "0",
     location: none) = {
   set text(size: text-size, fill: text-color, weight: text-weight)
-  box(width: 1.1cm, inset: (y: inset-size))[
-    #align(left, number)
+  box(width: 1.4cm, inset: (y: inset-size))[
+    #align(left)[#h(number-offset) #number]
   ]
   h(0.1cm)
-  box(inset: (y: inset-size), width: 100% - 1.2cm, )[
+  box(inset: (y: inset-size), width: 1fr)[
     #link(location, title)
     #box(width: 1fr)[
       #repeat()[
@@ -54,7 +55,7 @@
       let part-counter = z-part-counter.at(it.element.location())
       if (part-change){
         v(0.7cm, weak: true)
-        box(width: 1.1cm, fill: main-color.lighten(80%), inset: 5pt)[
+        box(width: 1.4cm, fill: main-color.lighten(80%), inset: 5pt)[
           #align(center)[
             #text(size: text-size-1, weight: "bold", fill: main-color.lighten(30%))[
               #numbering("I", part-counter.first())
@@ -62,7 +63,7 @@
           ]
         ]
         h(0.1cm)
-        box(width: 100% - 1.2cm, fill: main-color.lighten(60%), inset: 5pt)[
+        box(width: 1fr, fill: main-color.lighten(60%), inset: 5pt)[
           #align(center)[
             #link(part-location, text(size: text-size-1, weight: "bold")[#part-state])
           ]
@@ -102,7 +103,8 @@
         text-weight: "bold",
         text-size: text-size-3,
         text-color: black,
-        number: number,
+        number: number.trim(number.split(".").at(0), at: start, repeat: false),
+        number-offset: 0.25cm,
         title: title,
         heading-page: heading-page,
         location: it.element.location()
@@ -112,7 +114,8 @@
         text-weight: "regular",
         text-size: text-size-4,
         text-color: black,
-        number: number,
+        number: number.trim(number.split(".").at(0), at: start, repeat: false),
+        number-offset: 0.25cm,
         title: title,
         heading-page: heading-page,
         location: it.element.location()
@@ -145,7 +148,7 @@
     let title = it.element.body
     let heading-page = it.page
     let part-state = z-part.at(it.element.location())
-    if (part-state == part-title and counter-int.first() > 0 and appendix-state==none){
+    if (part-state == part-title and counter-int.first() > 0 and appendix-state == none){
       if it.level == 1 {
         v(0.5cm, weak: true)
         my-outline-row(
