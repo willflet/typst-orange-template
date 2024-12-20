@@ -1,3 +1,6 @@
+#import("_states.typ") as states
+
+
 #let classes = (main: "Main")
 #let index_string = "my_index"
 
@@ -12,7 +15,7 @@
   )]
 }
 
-#let make-index-int(title: none, z-main-color: none) = {
+#let make-index(title: none) = {
   let content-text(content) = {
     let ct = ""
     if content.has("text") {
@@ -29,7 +32,7 @@
   
   set par(first-line-indent: 0em)
   context {
-    let main-color = z-main-color.at(here())
+    let main-color = states.main-color.at(here())
     let elements = query(selector(figure.where(kind: index_string)).before(here()))
     let words = (:)
     for el in elements {

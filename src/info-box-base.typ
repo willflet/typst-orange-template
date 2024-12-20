@@ -1,14 +1,14 @@
 // Store theorem environment numbering
 
-#let thmcounters = state(
-  "thm",
+#let infocounters = state(
+  "info",
   (
     "counters": ("heading": ()),
     "latest": (),
   ),
 )
 
-#let thmenv(identifier, base, base_level, fmt) = {
+#let infoenv(identifier, base, base_level, fmt) = {
 
   let global_numbering = numbering
 
@@ -24,8 +24,8 @@
     if not numbering == none {
       context {
         let her = here()
-        thmcounters.update(thmpair => {
-          let counters = thmpair.at("counters")
+        infocounters.update(infopair => {
+          let counters = infopair.at("counters")
           // Manually update heading counter
           counters.at("heading") = counter(heading).at(her)
           if not identifier in counters.keys() {
@@ -66,7 +66,7 @@
       }
 
       number = context {
-        global_numbering(numbering, ..thmcounters.get().at("latest"))
+        global_numbering(numbering, ..infocounters.get().at("latest"))
       }
     }
 
@@ -74,7 +74,7 @@
   }
 }
 
-#let thmref(
+#let inforef(
   label,
   fmt: auto,
   makelink: true,
@@ -102,7 +102,7 @@
       message: "label <" + str(label) + "> occurs multiple times in the document: found at " + locationreps,
     )
     let target = elements.first().location()
-    let number = thmcounters.at(target).at("latest")
+    let number = infocounters.at(target).at("latest")
     if makelink {
       return link(target, fmt(number, body))
     }
@@ -110,7 +110,7 @@
   }
 }
 
-#let thmbox(
+#let infobox(
   identifier: [],
   head: [],
   fill: none,
@@ -150,10 +150,10 @@
       #title#name#separator#body
     ]
   }
-  return thmenv(identifier, base, base_level, boxfmt)
+  return infoenv(identifier, base, base_level, boxfmt)
 }
 
-#let thmplain = thmbox.with(
+#let infoplain = infobox.with(
   padding: (top: 0em, bottom: 0em),
   breakable: true,
   inset: (top: 0em, left: 1.2em, right: 1.2em),
