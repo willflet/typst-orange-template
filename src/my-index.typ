@@ -1,4 +1,4 @@
-#import("_states.typ") as states: *
+#import("_states.typ") as states: main-color
 
 
 #let classes = (main: "Main")

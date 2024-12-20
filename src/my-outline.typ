@@ -1,5 +1,3 @@
-#import("_states.typ") as states: *
-
 #let my-outline-row(
     text-size: none,
     text-weight: "regular",
