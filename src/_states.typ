@@ -10,3 +10,7 @@
 #let part-counter = counter("part-counter")
 #let part-change = state("part-change", false)
 #let quote-page-style = state("quote-page-style", none)
+
+#let update-heading-image(image: none) = {
+  heading-image.update(image)
+}
