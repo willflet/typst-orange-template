@@ -50,9 +50,10 @@
 }
 
 #let quote-page(body) = {
+  pagebreak()
   context {
+    let main-color = states.main-color.at(here())
     let quote-page-style = states.quote-page-style.at(here())
-    pagebreak()
     place(center, dy: 20%)[
       #par(leading: 0.8em)[
         #text(..quote-page-style)[
@@ -121,7 +122,7 @@
   }
 }
 
-#let part(title, quote: none) = {
+#let part(title) = {
   pagebreak(to: "odd")
   states.part-change.update(x => true)
   states.part.update(x => title)
@@ -186,9 +187,6 @@
         text-size-4: outline-heading3
       )
     ]
-  }
-  if quote != none {
-    quote-page(quote)
   }
 }
 

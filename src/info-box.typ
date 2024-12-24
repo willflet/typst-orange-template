@@ -1,6 +1,27 @@
 #import("info-box-base.typ"): infobox
 #import("_states.typ") as states
 
+#let notice(head: [], name: none, body) = {
+  context {
+    let language = states.language.at(here())
+    let main-color = states.main-color.at(here())
+    let fn = infobox(
+      identifier: "notice",
+      head: head,
+      fill: main-color.lighten(90%), 
+      stroke: (left: 4pt + main-color),
+      inset: 0.65em,
+      radius: 0em,
+      namefmt: x => [*#x*],
+      titlefmt: x => text(fill: main-color, weight: "bold")[#x],
+      separator: h(0.2em),
+      base_level: 1
+    )
+    fn(name: name, numbering: none)[
+      #body
+    ]
+  }
+}
 
 #let theorem(name: none, body) = {
   context {
