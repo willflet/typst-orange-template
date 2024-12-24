@@ -1,7 +1,7 @@
 #import("_states.typ") as states
 #import("styles.typ"): *
 
-#let book(
+#let orange-book(
     body,
     title: "",
     author: "",
@@ -10,15 +10,22 @@
     lang: "en",
     chapter-prefix: "Chapter",
     part-prefix: "Part",
+    main-font: "New Computer Modern",
+    math-font: "New Computer Modern Math",
+    raw-font: "DejaVu Sans Mono",
     font-size: 10pt,
     part-style: 0,
     quote-page-style: (size: 16pt),
     lowercase-references: false) = {
   set document(author: author, title: title)
-  set text(size: font-size, lang: lang)
+
+  set text(font: main-font, size: font-size, lang: lang)
   set par(leading: 0.5em)
   set enum(numbering: "1.a.i.")
   set list(marker: ([•], [--], [◦]))
+  
+  show math.equation: set text(font: math-font)
+  show raw: set text(font: raw-font)
 
   if lowercase-references {
     set ref(supplement: it => {lower(it.supplement)})
