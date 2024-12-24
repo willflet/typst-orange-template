@@ -1,5 +1,5 @@
 #import("info-box-base.typ"): infobox
-#import("_states.typ") as states
+#import("states.typ") as states
 
 #let notice(head: [], name: none, body) = {
   context {

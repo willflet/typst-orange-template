@@ -1,4 +1,4 @@
-#import("_states.typ") as states
+#import("states.typ") as states
 #import("styles.typ"): *
 
 #let orange-book(
